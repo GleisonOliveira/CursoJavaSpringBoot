@@ -1,44 +1,22 @@
-package com.gleisonoliveira.personapi.Models;
+package com.gleisonoliveira.personapi.Data.VO.V1;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "person")
-public class Person implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PersonVO implements Serializable {
     private long id;
-
-    @Column(name = "first_name", nullable = false, length = 30)
     private String firstName;
-
-    @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
-
-    @Column(nullable = false, length = 255)
     private String address;
-
-    @Column(nullable = false, length = 1)
     private String gender;
 
-    @Column(name = "birthday", nullable = true)
-    private Date birthDay;
-
-    public Person() {}
+    public PersonVO() {
+    }
 
     public long getId() {
         return id;
     }
 
-    public Person setId(long id) {
+    public PersonVO setId(long id) {
         this.id = id;
 
         return this;
@@ -64,7 +42,7 @@ public class Person implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Person other = (Person) obj;
+        PersonVO other = (PersonVO) obj;
         if (id != other.id)
             return false;
         if (firstName == null) {
@@ -94,7 +72,7 @@ public class Person implements Serializable {
         return firstName;
     }
 
-    public Person setFirstName(String firstName) {
+    public PersonVO setFirstName(String firstName) {
         this.firstName = firstName;
 
         return this;
@@ -104,7 +82,7 @@ public class Person implements Serializable {
         return lastName;
     }
 
-    public Person setLastName(String lastName) {
+    public PersonVO setLastName(String lastName) {
         this.lastName = lastName;
 
         return this;
@@ -114,7 +92,7 @@ public class Person implements Serializable {
         return address;
     }
 
-    public Person setAddress(String address) {
+    public PersonVO setAddress(String address) {
         this.address = address;
 
         return this;
@@ -124,18 +102,8 @@ public class Person implements Serializable {
         return gender;
     }
 
-    public Person setGender(String gender) {
+    public PersonVO setGender(String gender) {
         this.gender = gender;
-
-        return this;
-    }
-
-    public Date getBirthDay() {
-        return birthDay;
-    }
-
-    public Person setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
 
         return this;
     }

@@ -1,8 +1,7 @@
 package com.gleisonoliveira.personapi.Controllers;
 
 import org.springframework.web.bind.annotation.RestController;
-
-import com.gleisonoliveira.personapi.Data.VO.V1.PersonVO;
+import com.gleisonoliveira.personapi.Data.VO.V2.PersonVOV2;
 import com.gleisonoliveira.personapi.Exceptions.ResourceNotFoundException;
 import com.gleisonoliveira.personapi.Services.Person.PersonService;
 import java.util.List;
@@ -19,25 +18,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RestController
-@RequestMapping("/person")
-public class PersonController {
+@RequestMapping("/person/v2")
+public class PersonControllerV2 {
     @Autowired
     private PersonService personService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PersonVO> list() {
-        return personService.list();
+    public List<PersonVOV2> list() {
+        return personService.listV2();
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public PersonVO create(@RequestBody PersonVO person) {
-        return personService.create(person);
+    public PersonVOV2 create(@RequestBody PersonVOV2 person) {
+        return personService.createV2(person);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public PersonVO update(@PathVariable(value = "id") Long id, @RequestBody PersonVO person)
+    public PersonVOV2 update(@PathVariable(value = "id") Long id, @RequestBody PersonVOV2 person)
             throws ResourceNotFoundException {
-        return personService.update(id, person);
+        return personService.updateV2(id, person);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -47,8 +46,8 @@ public class PersonController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PersonVO get(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
-        return personService.get(id);
+    public PersonVOV2 get(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+        return personService.getV2(id);
     }
 
 }

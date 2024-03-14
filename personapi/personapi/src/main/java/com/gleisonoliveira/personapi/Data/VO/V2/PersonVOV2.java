@@ -1,44 +1,24 @@
-package com.gleisonoliveira.personapi.Models;
+package com.gleisonoliveira.personapi.Data.VO.V2;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "person")
-public class Person implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PersonVOV2 implements Serializable {
     private long id;
-
-    @Column(name = "first_name", nullable = false, length = 30)
     private String firstName;
-
-    @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
-
-    @Column(nullable = false, length = 255)
     private String address;
-
-    @Column(nullable = false, length = 1)
     private String gender;
-
-    @Column(name = "birthday", nullable = true)
     private Date birthDay;
 
-    public Person() {}
+    public PersonVOV2() {
+    }
 
     public long getId() {
         return id;
     }
 
-    public Person setId(long id) {
+    public PersonVOV2 setId(long id) {
         this.id = id;
 
         return this;
@@ -53,6 +33,7 @@ public class Person implements Serializable {
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
         result = prime * result + ((address == null) ? 0 : address.hashCode());
         result = prime * result + ((gender == null) ? 0 : gender.hashCode());
+        result = prime * result + ((birthDay == null) ? 0 : birthDay.hashCode());
         return result;
     }
 
@@ -64,7 +45,7 @@ public class Person implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Person other = (Person) obj;
+        PersonVOV2 other = (PersonVOV2) obj;
         if (id != other.id)
             return false;
         if (firstName == null) {
@@ -87,6 +68,11 @@ public class Person implements Serializable {
                 return false;
         } else if (!gender.equals(other.gender))
             return false;
+        if (birthDay == null) {
+            if (other.birthDay != null)
+                return false;
+        } else if (!birthDay.equals(other.birthDay))
+            return false;
         return true;
     }
 
@@ -94,7 +80,7 @@ public class Person implements Serializable {
         return firstName;
     }
 
-    public Person setFirstName(String firstName) {
+    public PersonVOV2 setFirstName(String firstName) {
         this.firstName = firstName;
 
         return this;
@@ -104,7 +90,7 @@ public class Person implements Serializable {
         return lastName;
     }
 
-    public Person setLastName(String lastName) {
+    public PersonVOV2 setLastName(String lastName) {
         this.lastName = lastName;
 
         return this;
@@ -114,7 +100,7 @@ public class Person implements Serializable {
         return address;
     }
 
-    public Person setAddress(String address) {
+    public PersonVOV2 setAddress(String address) {
         this.address = address;
 
         return this;
@@ -124,7 +110,7 @@ public class Person implements Serializable {
         return gender;
     }
 
-    public Person setGender(String gender) {
+    public PersonVOV2 setGender(String gender) {
         this.gender = gender;
 
         return this;
@@ -134,7 +120,7 @@ public class Person implements Serializable {
         return birthDay;
     }
 
-    public Person setBirthDay(Date birthDay) {
+    public PersonVOV2 setBirthDay(Date birthDay) {
         this.birthDay = birthDay;
 
         return this;

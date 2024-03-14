@@ -3,7 +3,10 @@ package com.gleisonoliveira.personapi.Services.Person;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.gleisonoliveira.personapi.Data.VO.V1.PersonVO;
+import com.gleisonoliveira.personapi.Data.VO.V2.PersonVOV2;
 import com.gleisonoliveira.personapi.Exceptions.ResourceNotFoundException;
+import com.gleisonoliveira.personapi.Mapper.ModelMapperMapper;
 import com.gleisonoliveira.personapi.Models.Person;
 import com.gleisonoliveira.personapi.Repository.Person.PersonRepository;
 
@@ -18,8 +21,10 @@ public class PersonService {
      * @param id
      * @return
      */
-    public Person get(Long id) throws ResourceNotFoundException {
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Person.class.getSimpleName()));
+    public PersonVO get(Long id) throws ResourceNotFoundException {
+        Person person = repository.getByID(id);
+
+        return ModelMapperMapper.parseObject(person, PersonVO.class);
     }
 
     /**
@@ -27,48 +32,108 @@ public class PersonService {
      * 
      * @return
      */
-    public List<Person> list() {
-        return repository.findAll();
+    public List<PersonVO> list() {
+        List<Person> persons = repository.findAll();
+
+        return ModelMapperMapper.parseListObjects(persons, PersonVO.class);
     }
 
     /**
      * Create a new person
      * 
-     * @param person
+     * @param personVO
      * @return
      */
-    public Person create(Person person) {
-        return repository.save(person);
+    public PersonVO create(PersonVO personVO) {
+        Person person = repository.save(ModelMapperMapper.parseObject(personVO, Person.class));
+
+        return ModelMapperMapper.parseObject(person, PersonVO.class);
     }
 
     /**
      * Update a new person
      * 
      * @param id
-     * @param person
+     * @param personVO
      * @return
      * @throws ResourceNotFoundException
      */
-    public Person update(Long id, Person person) throws ResourceNotFoundException {
-        Person savedPerson = get(id);
+    public PersonVO update(Long id, PersonVO personVO) throws ResourceNotFoundException {
+        Person savedPerson = repository.getByID(id);
 
-        savedPerson.setFirstName(person.getFirstName())
-                .setLastName(person.getLastName())
-                .setAddress(person.getAddress())
-                .setGender(person.getGender());
+        savedPerson.setFirstName(personVO.getFirstName())
+                .setLastName(personVO.getLastName())
+                .setAddress(personVO.getAddress())
+                .setGender(personVO.getGender());
 
-        return repository.save(savedPerson);
+        return ModelMapperMapper.parseObject(repository.save(savedPerson), PersonVO.class);
     }
 
     /**
      * Delete a person
      * 
      * @param id
-     * @throws ResourceNotFoundException 
+     * @throws ResourceNotFoundException
      */
     public void delete(Long id) throws ResourceNotFoundException {
-        Person savedPerson = get(id);
+        Person savedPerson = repository.getByID(id);
 
         repository.delete(savedPerson);
+    }
+
+    /**
+     * Get the person by id
+     * 
+     * @param id
+     * @return
+     */
+    public PersonVOV2 getV2(Long id) throws ResourceNotFoundException {
+        Person person = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(Person.class.getSimpleName()));
+
+        return ModelMapperMapper.parseObject(person, PersonVOV2.class);
+    }
+
+    /**
+     * List all persons
+     * 
+     * @return
+     */
+    public List<PersonVOV2> listV2() {
+        List<Person> persons = repository.findAll();
+
+        return ModelMapperMapper.parseListObjects(persons, PersonVOV2.class);
+    }
+
+    /**
+     * Create a new person
+     * 
+     * @param personVO
+     * @return
+     */
+    public PersonVOV2 createV2(PersonVOV2 personVO) {
+        Person person = repository.save(ModelMapperMapper.parseObject(personVO, Person.class));
+
+        return ModelMapperMapper.parseObject(person, PersonVOV2.class);
+    }
+
+    /**
+     * Update a new person
+     * 
+     * @param id
+     * @param personVO
+     * @return
+     * @throws ResourceNotFoundException
+     */
+    public PersonVOV2 updateV2(Long id, PersonVOV2 personVO) throws ResourceNotFoundException {
+        Person savedPerson = repository.getByID(id);
+
+        savedPerson.setFirstName(personVO.getFirstName())
+                .setLastName(personVO.getLastName())
+                .setAddress(personVO.getAddress())
+                .setGender(personVO.getGender())
+                .setBirthDay(personVO.getBirthDay());
+
+        return ModelMapperMapper.parseObject(repository.save(savedPerson), PersonVOV2.class);
     }
 }
