@@ -90,8 +90,7 @@ public class PersonService {
      * @return
      */
     public PersonVOV2 getV2(Long id) throws ResourceNotFoundException {
-        Person person = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(Person.class.getSimpleName()));
+        Person person = repository.getByID(id);
 
         return ModelMapperMapper.parseObject(person, PersonVOV2.class);
     }

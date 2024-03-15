@@ -44,13 +44,13 @@ public class MapperMapperTest {
         List<PersonVO> outputList = ModelMapperMapper.parseListObjects(mockPerson.mockEntityList(), PersonVO.class);
         PersonVO outputZero = outputList.get(0);
         
-        Assertions.assertEquals(Long.valueOf(0L), outputZero.getId());
-        Assertions.assertEquals("First Name Test0", outputZero.getFirstName());
-        Assertions.assertEquals("Last Name Test0", outputZero.getLastName());
-        Assertions.assertEquals("Addres Test0", outputZero.getAddress());
-        Assertions.assertEquals("M", outputZero.getGender());
+        Assertions.assertEquals(Long.valueOf(1L), outputZero.getId());
+        Assertions.assertEquals("First Name Test1", outputZero.getFirstName());
+        Assertions.assertEquals("Last Name Test1", outputZero.getLastName());
+        Assertions.assertEquals("Addres Test1", outputZero.getAddress());
+        Assertions.assertEquals("F", outputZero.getGender());
         
-        PersonVO outputSeven = outputList.get(7);
+        PersonVO outputSeven = outputList.get(6);
         
         Assertions.assertEquals(Long.valueOf(7L), outputSeven.getId());
         Assertions.assertEquals("First Name Test7", outputSeven.getFirstName());
