@@ -2,10 +2,14 @@ package com.gleisonoliveira.personapi.Data.VO.V1;
 
 import java.io.Serializable;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@Relation(collectionRelation = "persons")
 @JsonPropertyOrder({"id", "firstName", "lastName", "gender", "address"})
-public class PersonVO implements Serializable {
+public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
     private long id;
     private String firstName;
     private String lastName;

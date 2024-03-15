@@ -1,8 +1,10 @@
 package com.gleisonoliveira.personapi.Services.Person;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.gleisonoliveira.personapi.Data.VO.V1.PersonVO;
 import com.gleisonoliveira.personapi.Data.VO.V2.PersonVOV2;
 import com.gleisonoliveira.personapi.Exceptions.ResourceNotFoundException;

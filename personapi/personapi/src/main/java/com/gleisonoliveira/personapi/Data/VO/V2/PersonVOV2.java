@@ -3,7 +3,11 @@ package com.gleisonoliveira.personapi.Data.VO.V2;
 import java.io.Serializable;
 import java.util.Date;
 
-public class PersonVOV2 implements Serializable {
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
+@Relation(collectionRelation = "persons")
+public class PersonVOV2 extends RepresentationModel<PersonVOV2> implements Serializable {
     private long id;
     private String firstName;
     private String lastName;
