@@ -2,6 +2,9 @@ package com.gleisonoliveira.personapi.Data.VO.V1;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"id", "firstName", "lastName", "gender", "address"})
 public class PersonVO implements Serializable {
     private long id;
     private String firstName;

@@ -3,8 +3,6 @@ package com.gleisonoliveira.personapi.Mocks;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.gleisonoliveira.personapi.Data.VO.V1.PersonVO;
 import com.gleisonoliveira.personapi.Data.VO.V2.PersonVOV2;
 import com.gleisonoliveira.personapi.Models.Person;
 

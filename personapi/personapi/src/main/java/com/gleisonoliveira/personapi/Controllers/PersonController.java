@@ -5,10 +5,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gleisonoliveira.personapi.Data.VO.V1.PersonVO;
 import com.gleisonoliveira.personapi.Exceptions.ResourceNotFoundException;
 import com.gleisonoliveira.personapi.Services.Person.PersonService;
+import com.gleisonoliveira.personapi.Util.MediaType;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,17 +25,21 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML })
     public List<PersonVO> list() {
         return personService.list();
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+            MediaType.APPLICATION_YAML }, consumes = {
+                    MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML })
     public PersonVO create(@RequestBody PersonVO person) {
         return personService.create(person);
     }
 
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON,
+            MediaType.APPLICATION_XML }, consumes = { MediaType.APPLICATION_JSON,
+                    MediaType.APPLICATION_XML })
     public PersonVO update(@PathVariable(value = "id") Long id, @RequestBody PersonVO person)
             throws ResourceNotFoundException {
         return personService.update(id, person);
@@ -46,7 +51,8 @@ public class PersonController {
         personService.delete(id);
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+            MediaType.APPLICATION_YAML })
     public PersonVO get(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
         return personService.get(id);
     }

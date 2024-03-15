@@ -18,9 +18,9 @@ spring:
   jpa:
     show-sql: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   datasource:
-    url: jdbc:mysql://127.0.0.1:3308/curso_java?useTimezone=true&serverTimezone=UTC
-    username: root
-    password: admin123
+    url: ${JPA_URL}
+    username: ${JPA_USER}
+    password: ${JPA_PASSWORD}
     driverClassName: com.mysql.cj.jdbc.Driver
