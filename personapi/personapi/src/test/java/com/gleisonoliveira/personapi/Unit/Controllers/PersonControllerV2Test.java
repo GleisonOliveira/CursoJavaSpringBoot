@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -22,8 +23,8 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import com.gleisonoliveira.personapi.Controllers.PersonControllerV2;
 import com.gleisonoliveira.personapi.Data.VO.V2.PersonVOV2;
+import com.gleisonoliveira.personapi.Exceptions.RequiredObjectIsNullException;
 import com.gleisonoliveira.personapi.Exceptions.ResourceNotFoundException;
-import com.gleisonoliveira.personapi.Mocks.MockPerson;
 import com.gleisonoliveira.personapi.Mocks.MockPersonV2;
 import com.gleisonoliveira.personapi.Models.Person;
 import com.gleisonoliveira.personapi.Repository.Person.PersonRepository;
@@ -56,7 +57,7 @@ public class PersonControllerV2Test {
     }
 
     @Test
-    void testCreate() {
+    void testCreate() throws RequiredObjectIsNullException {
         when(personRepository.save(person)).thenReturn(person);
 
         PersonVOV2 personVO = input.mockVO();
@@ -106,12 +107,12 @@ public class PersonControllerV2Test {
         person1.setId(1L);
 
         assertEntityResult(obj1, person1);
-        
+
         assertEntityLink(obj1);
     }
 
     @Test
-    void testUpdate() throws ResourceNotFoundException {
+    void testUpdate() throws ResourceNotFoundException, RequiredObjectIsNullException {
         when(personRepository.getByID(1L)).thenReturn(person);
         when(personRepository.save(person)).thenReturn(person);
 
@@ -122,6 +123,20 @@ public class PersonControllerV2Test {
 
         assertEntityResult(result, person);
         assertEntityLinkWithCollection(result);
+    }
+
+    @Test
+    void testCreateWithNull() {
+        assertThrows(RequiredObjectIsNullException.class, () -> {
+            personController.create(null);
+        });
+    }
+
+    @Test
+    void testUpdateWithNull() {
+        assertThrows(RequiredObjectIsNullException.class, () -> {
+            personController.update(1L, null);
+        });
     }
 
     /**
@@ -142,7 +157,8 @@ public class PersonControllerV2Test {
 
     private void assertEntityLinkWithCollection(PersonVOV2 result) {
         assertTrue(result.toString()
-                .contains("[<http://localhost/person/v2/1>;rel=\"self\", <http://localhost/person/v2>;rel=\"collection\"]"));
+                .contains(
+                        "[<http://localhost/person/v2/1>;rel=\"self\", <http://localhost/person/v2>;rel=\"collection\"]"));
     }
 
     private void assertEntityLink(PersonVOV2 result) {

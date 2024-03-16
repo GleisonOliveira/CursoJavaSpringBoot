@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -22,6 +23,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import com.gleisonoliveira.personapi.Controllers.PersonController;
 import com.gleisonoliveira.personapi.Data.VO.V1.PersonVO;
+import com.gleisonoliveira.personapi.Exceptions.RequiredObjectIsNullException;
 import com.gleisonoliveira.personapi.Exceptions.ResourceNotFoundException;
 import com.gleisonoliveira.personapi.Mocks.MockPerson;
 import com.gleisonoliveira.personapi.Models.Person;
@@ -55,7 +57,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    void testCreate() {
+    void testCreate() throws RequiredObjectIsNullException {
         when(personRepository.save(person)).thenReturn(person);
 
         PersonVO personVO = input.mockVO();
@@ -109,7 +111,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    void testUpdate() throws ResourceNotFoundException {
+    void testUpdate() throws ResourceNotFoundException, RequiredObjectIsNullException {
         when(personRepository.getByID(1L)).thenReturn(person);
         when(personRepository.save(person)).thenReturn(person);
 
@@ -120,6 +122,20 @@ public class PersonControllerTest {
 
         assertEntityResult(result, person);
         assertEntityLinkWithCollection(result);
+    }
+
+    @Test
+    void testCreateWithNull() {
+        assertThrows(RequiredObjectIsNullException.class, () -> {
+            personController.create(null);
+        });
+    }
+
+    @Test
+    void testUpdateWithNull() {
+        assertThrows(RequiredObjectIsNullException.class, () -> {
+            personController.update(1L, null);
+        });
     }
 
     /**

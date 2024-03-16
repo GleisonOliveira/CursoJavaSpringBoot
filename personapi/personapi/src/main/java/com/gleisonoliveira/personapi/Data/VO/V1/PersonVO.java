@@ -7,13 +7,41 @@ import org.springframework.hateoas.server.core.Relation;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 @Relation(collectionRelation = "persons")
 @JsonPropertyOrder({"id", "firstName", "lastName", "gender", "address"})
+@Schema(name = "Person")
 public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
+    @Hidden
     private long id;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 3, max = 30)
+    @Schema(example = "Name")
     private String firstName;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 2, max = 100)
+    @Schema(example = "Last name")
     private String lastName;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 250)
+    @Schema(example = "Street A")
     private String address;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 1)
+    @Schema(example = "M|F")
     private String gender;
 
     public PersonVO() {

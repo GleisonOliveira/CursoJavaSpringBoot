@@ -6,13 +6,45 @@ import java.util.Date;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 @Relation(collectionRelation = "persons")
+@Schema(name = "Person (V2)")
 public class PersonVOV2 extends RepresentationModel<PersonVOV2> implements Serializable {
+    @Hidden
     private long id;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 3, max = 30)
+    @Schema(example = "Name")
     private String firstName;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 2, max = 100)
+    @Schema(example = "Last name")
     private String lastName;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 250)
+    @Schema(example = "Street A")
     private String address;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 1)
+    @Schema(example = "M|F")
     private String gender;
+
+    @NotNull
+    @NotBlank
+    @Schema(example = "2000-03-25")
     private Date birthDay;
 
     public PersonVOV2() {

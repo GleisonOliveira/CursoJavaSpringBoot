@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.gleisonoliveira.personapi.Exceptions.ExceptionResponse;
 import com.gleisonoliveira.personapi.Exceptions.IExceptionResponse;
+import com.gleisonoliveira.personapi.Exceptions.RequiredObjectIsNullException;
 import com.gleisonoliveira.personapi.Exceptions.ResourceNotFoundException;
 
 @RestController
@@ -43,5 +44,15 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RequiredObjectIsNullException.class)
+    public final ResponseEntity<IExceptionResponse> handleNotFoundExceptions(RequiredObjectIsNullException ex, WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 }

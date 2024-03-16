@@ -15,6 +15,8 @@
 #             ddl-auto: update
 
 spring:
+  profiles:
+    active: ${ENV}
   jpa:
     show-sql: false
     hibernate:
@@ -24,3 +26,8 @@ spring:
     username: ${JPA_USER}
     password: ${JPA_PASSWORD}
     driverClassName: com.mysql.cj.jdbc.Driver
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLE}
+  swagger-ui: 
+    enabled: ${SWAGGER_ENABLE}

@@ -4,10 +4,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class ExceptionResponse implements IExceptionResponse {
+    @NotNull
+    @NotBlank
     private Date timestamp;
+
+    @NotNull
+    @NotBlank
     private String message;
+
+    @NotNull
+    @NotBlank
     private String details;
+
     public List<?> errors;
 
     public ExceptionResponse(Date timestamp, String message, String details) {

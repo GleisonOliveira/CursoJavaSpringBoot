@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gleisonoliveira.personapi.Data.VO.V1.PersonVO;
 import com.gleisonoliveira.personapi.Data.VO.V2.PersonVOV2;
+import com.gleisonoliveira.personapi.Exceptions.RequiredObjectIsNullException;
 import com.gleisonoliveira.personapi.Exceptions.ResourceNotFoundException;
 import com.gleisonoliveira.personapi.Mapper.ModelMapperMapper;
 import com.gleisonoliveira.personapi.Models.Person;
@@ -45,8 +46,12 @@ public class PersonService {
      * 
      * @param personVO
      * @return
+     * @throws RequiredObjectIsNullException
      */
-    public PersonVO create(PersonVO personVO) {
+    public PersonVO create(PersonVO personVO) throws RequiredObjectIsNullException {
+        if (personVO == null)
+            throw new RequiredObjectIsNullException(Person.class.getSimpleName());
+
         Person person = repository.save(ModelMapperMapper.parseObject(personVO, Person.class));
 
         return ModelMapperMapper.parseObject(person, PersonVO.class);
@@ -59,8 +64,12 @@ public class PersonService {
      * @param personVO
      * @return
      * @throws ResourceNotFoundException
+     * @throws RequiredObjectIsNullException
      */
-    public PersonVO update(Long id, PersonVO personVO) throws ResourceNotFoundException {
+    public PersonVO update(Long id, PersonVO personVO) throws ResourceNotFoundException, RequiredObjectIsNullException {
+        if (personVO == null)
+            throw new RequiredObjectIsNullException(Person.class.getSimpleName());
+
         Person savedPerson = repository.getByID(id);
 
         savedPerson.setFirstName(personVO.getFirstName())
@@ -111,8 +120,12 @@ public class PersonService {
      * 
      * @param personVO
      * @return
+     * @throws RequiredObjectIsNullException
      */
-    public PersonVOV2 createV2(PersonVOV2 personVO) {
+    public PersonVOV2 createV2(PersonVOV2 personVO) throws RequiredObjectIsNullException {
+        if (personVO == null)
+            throw new RequiredObjectIsNullException(Person.class.getSimpleName());
+
         Person person = repository.save(ModelMapperMapper.parseObject(personVO, Person.class));
 
         return ModelMapperMapper.parseObject(person, PersonVOV2.class);
@@ -125,8 +138,13 @@ public class PersonService {
      * @param personVO
      * @return
      * @throws ResourceNotFoundException
+     * @throws RequiredObjectIsNullException
      */
-    public PersonVOV2 updateV2(Long id, PersonVOV2 personVO) throws ResourceNotFoundException {
+    public PersonVOV2 updateV2(Long id, PersonVOV2 personVO)
+            throws ResourceNotFoundException, RequiredObjectIsNullException {
+        if (personVO == null)
+            throw new RequiredObjectIsNullException(Person.class.getSimpleName());
+
         Person savedPerson = repository.getByID(id);
 
         savedPerson.setFirstName(personVO.getFirstName())
