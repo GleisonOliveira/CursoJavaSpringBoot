@@ -16,6 +16,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -71,7 +74,7 @@ public class PersonControllerTest {
 
     @Test
     void testDelete() throws ResourceNotFoundException {
-        when(personRepository.getByID(1L)).thenReturn(person);
+        when(personRepository.findById(1L)).thenReturn(Optional.of(person));
 
         doNothing().when(personRepository).delete(person);
 
@@ -82,7 +85,7 @@ public class PersonControllerTest {
 
     @Test
     void testGet() throws ResourceNotFoundException {
-        when(personRepository.getByID(1L)).thenReturn(person);
+        when(personRepository.findById(1L)).thenReturn(Optional.of(person));
 
         var result = personController.get(1L);
 
@@ -112,7 +115,7 @@ public class PersonControllerTest {
 
     @Test
     void testUpdate() throws ResourceNotFoundException, RequiredObjectIsNullException {
-        when(personRepository.getByID(1L)).thenReturn(person);
+        when(personRepository.findById(1L)).thenReturn(Optional.of(person));
         when(personRepository.save(person)).thenReturn(person);
 
         PersonVO personVO = input.mockVO();

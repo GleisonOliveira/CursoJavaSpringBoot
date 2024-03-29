@@ -1,9 +1,6 @@
 package com.gleisonoliveira.personapi.Repository.Person;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import com.gleisonoliveira.personapi.Models.Person;
+import com.gleisonoliveira.personapi.Repository.BaseRepository;
 
-@Repository
-public interface PersonRepository extends JpaRepository<Person, Long>, PersonRepositoryBase {}
+public interface PersonRepository extends BaseRepository<Person, Long> {}

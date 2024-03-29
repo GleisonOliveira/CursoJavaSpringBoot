@@ -11,12 +11,24 @@ import com.gleisonoliveira.personapi.Exceptions.RequiredObjectIsNullException;
 import com.gleisonoliveira.personapi.Exceptions.ResourceNotFoundException;
 import com.gleisonoliveira.personapi.Mapper.ModelMapperMapper;
 import com.gleisonoliveira.personapi.Models.Person;
+import com.gleisonoliveira.personapi.Repository.BaseRepository;
 import com.gleisonoliveira.personapi.Repository.Person.PersonRepository;
+import com.gleisonoliveira.personapi.Services.BaseService;
 
 @Service
-public class PersonService {
+public class PersonService implements BaseService<Person, Long> {
     @Autowired
     private PersonRepository repository;
+
+    @Override
+    public BaseRepository<Person, Long> getRepository() {
+        return repository;
+    }
+
+    @Override
+    public String getEntityName() {
+        return Person.class.getSimpleName();
+    }
 
     /**
      * Get the person by id
@@ -25,7 +37,7 @@ public class PersonService {
      * @return
      */
     public PersonVO get(Long id) throws ResourceNotFoundException {
-        Person person = repository.getByID(id);
+        Person person = getByID(id);
 
         return ModelMapperMapper.parseObject(person, PersonVO.class);
     }
@@ -70,7 +82,7 @@ public class PersonService {
         if (personVO == null)
             throw new RequiredObjectIsNullException(Person.class.getSimpleName());
 
-        Person savedPerson = repository.getByID(id);
+        Person savedPerson = getByID(id);
 
         savedPerson.setFirstName(personVO.getFirstName())
                 .setLastName(personVO.getLastName())
@@ -87,7 +99,7 @@ public class PersonService {
      * @throws ResourceNotFoundException
      */
     public void delete(Long id) throws ResourceNotFoundException {
-        Person savedPerson = repository.getByID(id);
+        Person savedPerson = getByID(id);
 
         repository.delete(savedPerson);
     }
@@ -99,7 +111,7 @@ public class PersonService {
      * @return
      */
     public PersonVOV2 getV2(Long id) throws ResourceNotFoundException {
-        Person person = repository.getByID(id);
+        Person person = getByID(id);
 
         return ModelMapperMapper.parseObject(person, PersonVOV2.class);
     }
@@ -145,7 +157,7 @@ public class PersonService {
         if (personVO == null)
             throw new RequiredObjectIsNullException(Person.class.getSimpleName());
 
-        Person savedPerson = repository.getByID(id);
+        Person savedPerson = getByID(id);
 
         savedPerson.setFirstName(personVO.getFirstName())
                 .setLastName(personVO.getLastName())
